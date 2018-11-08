@@ -29,7 +29,7 @@ RUN yum -y update \
     && cd /tmp \
     && wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.3.zip \
     && cd /opt \
-    && unzip /tmp/sonarqube.zip \
+    && unzip /tmp/sonarqube-7.3.zip \
     && mv sonarqube-$SONAR_VERSION sonarqube \
     && rm /tmp/sonarqube.zip*
 ADD root /
