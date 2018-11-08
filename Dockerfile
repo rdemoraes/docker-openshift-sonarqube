@@ -31,7 +31,7 @@ RUN yum -y update \
     && cd /opt \
     && unzip /tmp/sonarqube-7.3.zip \
     && mv sonarqube-$SONAR_VERSION sonarqube \
-    && rm /tmp/sonarqube.zip*
+    && rm /tmp/sonarqube-7.3.zip*
 ADD root /
 
 RUN useradd -r sonar \
