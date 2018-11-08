@@ -22,12 +22,12 @@ RUN yum-config-manager --disablerepo=* && yum-config-manager --enablerepo=rhel-s
 --enablerepo=rhel-7-server-satellite-tools-6.2-rpms \
 --enablerepo=Banco_Votorantim_Epel_Epel_Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64
 
-COPY sonarqube.zip /tmp/
-
 RUN yum -y update \
-    && yum -y install unzip java-1.8.0-openjdk nss_wrapper \
+    && yum -y install unzip java-1.8.0-openjdk nss_wrapper wget \
     && yum clean all \
     && rm -rf /var/cache/yum \
+    && cd /tmp \
+    && wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.3.zip \
     && cd /opt \
     && unzip /tmp/sonarqube.zip \
     && mv sonarqube-$SONAR_VERSION sonarqube \
