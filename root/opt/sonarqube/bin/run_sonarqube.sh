@@ -12,8 +12,7 @@ if [ ! -d "/opt/sonarqube/data/extensions" ];
 then
   echo "**** Initial Setup"
   # For initial setup move extensions into the data directory (on a PVC)
-  mkdir -p /opt/sonarqube/data/extensions/plugins
-  mv /opt/sonarqube/extensions/plugins/* /opt/sonarqube/data/extensions/plugins/
+  mv /opt/sonarqube/extensions /opt/sonarqube/data
 else
   echo "**** Secondary Setup"
   # For secondary setup just remove the extensions directory from /opt/sonarqube
@@ -36,7 +35,7 @@ then
   plugin_folder="/opt/sonarqube/lib/bundled-plugins/*"
 else
   echo "**** Sonarqube Version > 7.2 Detected"
-  plugin_folder="/opt/sonarqube/data/extensions/plugins/"
+  plugin_folder="/opt/sonarqube/extensions/plugins/*"
 fi
 
 # Now make sure all plugins are in the plugins directory - this is especially
@@ -85,5 +84,7 @@ exec java -jar lib/sonar-application-$SONAR_VERSION.jar \
 -Dsonar.jdbc.username="$SONARQUBE_JDBC_USERNAME" \
 -Dsonar.jdbc.password="$SONARQUBE_JDBC_PASSWORD" \
 -Dsonar.jdbc.url="$SONARQUBE_JDBC_URL" \
+-Duser.country=BR \
+-Duser.language=pt \
 -Dsonar.web.javaAdditionalOpts="$SONARQUBE_WEB_JVM_OPTS -Djava.security.egd=file:/dev/./urandom" \
 "$@"
