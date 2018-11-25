@@ -53,7 +53,6 @@ do
   if [ $(ls /opt/sonarqube/data/extensions/plugins/${plugin_base_name}* 2>/dev/null|wc -l) == 0 ];
   then
     echo "  ++++ Installing plugin ${plugin}..."
-    mkdir -p /opt/sonarqube/extensions/plugins/
     cp ${plugin} /opt/sonarqube/data/extensions/plugins
   else
     echo "  ++++ Plugin ${plugin_base_name} already installed."
