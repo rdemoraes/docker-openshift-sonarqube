@@ -27,11 +27,12 @@ RUN yum -y update \
     && yum clean all \
     && rm -rf /var/cache/yum \
     && cd /tmp \
-    && wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.3.zip \
+    && curl -k -o sonarqube.zip -fSL https://nexus.bvnet.bv/repository/raw/sonar/sonarqube-7.3-plus-addons.zip \
     && cd /opt \
-    && unzip /tmp/sonarqube-7.3.zip \
-    && mv sonarqube-$SONAR_VERSION sonarqube \
-    && rm /tmp/sonarqube-7.3.zip*
+    && mkdir sonarqube \
+    && cd sonarqube \
+    && unzip /tmp/sonarqube.zip \
+    && rm /tmp/sonarqube.zip*
 ADD root /
 
 RUN useradd -r sonar \
