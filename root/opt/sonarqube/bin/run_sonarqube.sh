@@ -12,7 +12,8 @@ if [ ! -d "/opt/sonarqube/data/extensions" ];
 then
   echo "**** Initial Setup"
   # For initial setup move extensions into the data directory (on a PVC)
-  mv /opt/sonarqube/extensions /opt/sonarqube/data
+  mkdir -p /opt/sonarqube/data/extensions/plugins
+  mv /opt/sonarqube/extensions/plugins/* /opt/sonarqube/data/extensions/plugins/
 else
   echo "**** Secondary Setup"
   # For secondary setup just remove the extensions directory from /opt/sonarqube
@@ -35,8 +36,7 @@ then
   plugin_folder="/opt/sonarqube/lib/bundled-plugins/*"
 else
   echo "**** Sonarqube Version > 7.2 Detected"
-  mkdir -p /opt/sonarqube/data/extensions/plugins/
-  plugin_folder="/opt/sonarqube/data/extensions/plugins/"
+  plugin_folder="/opt/sonarqube/data/extensions/plugins/*"
 fi
 
 # Now make sure all plugins are in the plugins directory - this is especially
