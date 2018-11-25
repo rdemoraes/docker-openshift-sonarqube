@@ -36,6 +36,7 @@ ADD root /
 
 RUN useradd -r sonar \
     && chmod 775 $SONARQUBE_HOME/bin/run_sonarqube.sh \
+    && mkdir -p /opt/sonarqube/extensions/plugins/ \
     && /usr/bin/fix-permissions /opt/sonarqube
 
 USER sonar
