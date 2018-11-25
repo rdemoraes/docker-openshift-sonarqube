@@ -35,7 +35,8 @@ then
   plugin_folder="/opt/sonarqube/lib/bundled-plugins/*"
 else
   echo "**** Sonarqube Version > 7.2 Detected"
-  plugin_folder="/opt/sonarqube/data/extensions/plugins/*"
+  mkdir -p /opt/sonarqube/data/extensions/plugins/
+  plugin_folder="/opt/sonarqube/data/extensions/plugins/"
 fi
 
 # Now make sure all plugins are in the plugins directory - this is especially
