@@ -35,7 +35,7 @@ then
   plugin_folder="/opt/sonarqube/lib/bundled-plugins/*"
 else
   echo "**** Sonarqube Version > 7.2 Detected"
-  plugin_folder="/opt/sonarqube/extensions/plugins/"
+  plugin_folder="/opt/sonarqube/extensions/plugins/*"
 fi
 
 # Now make sure all plugins are in the plugins directory - this is especially
@@ -53,7 +53,7 @@ do
   if [ $(ls /opt/sonarqube/data/extensions/plugins/${plugin_base_name}* 2>/dev/null|wc -l) == 0 ];
   then
     echo "  ++++ Installing plugin ${plugin}..."
-    cp ${plugin} /opt/sonarqube/data/extensions/plugins
+    cp /opt/sonarqube/extensions/plugins/* /opt/sonarqube/data/extensions/plugins/
   else
     echo "  ++++ Plugin ${plugin_base_name} already installed."
   fi
