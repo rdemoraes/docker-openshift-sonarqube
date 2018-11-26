@@ -25,7 +25,7 @@ else
   fi
 fi
 # Now link the extensions from the PVC into the expected location
-ln -s /opt/sonarqube/data/extensions /opt/sonarqube
+# ln -s /opt/sonarqube/data/extensions /opt/sonarqube
 
 #Added for 7.2 this code does not work, lib/bundled-plugins was moved to extensions/plugins
 plugin_folder=""
@@ -35,7 +35,7 @@ then
   plugin_folder="/opt/sonarqube/lib/bundled-plugins/*"
 else
   echo "**** Sonarqube Version > 7.2 Detected"
-  plugin_folder="/opt/sonarqube/extensions/plugins/*"
+  plugin_folder="/opt/sonarqube/extensions/plugins/"
 fi
 
 # Now make sure all plugins are in the plugins directory - this is especially
