@@ -23,7 +23,7 @@ RUN yum-config-manager --disablerepo=* && yum-config-manager --enablerepo=rhel-s
 --enablerepo=Banco_Votorantim_Epel_Epel_Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64
 
 RUN yum -y update \
-    && yum -y install unzip java-1.8.0-openjdk nss_wrapper wget \
+    && yum -y install unzip java-1.8.0-openjdk nss_wrapper \
     && yum clean all \
     && rm -rf /var/cache/yum \
     && cd /tmp \
