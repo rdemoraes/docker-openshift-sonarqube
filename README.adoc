@@ -1,7 +1,7 @@
 # SonarQube on OpenShift
 This repo contains all of the resources required to build an OpenShift-specific Docker image of SonarQube 7.3.
 
-NOTE: This documentation cover an environment using a private git repository and Container Native Storage (Gluster-based storage solution). So, it's very important that you edit the template to adjust all the infos accordly with your environment, mainly the secret to import a private ssh-key if you also are using a private git repository.
+NOTE: This documentation cover an environment using a private git repository, Container Native Storage (Gluster-based storage solution) and Satellite repository channels on Dockerfile for Red Hat Enterprise Linux 7.5 docker image. So, it's very important that you edit the template to adjust all the infos accordly with your environment, mainly the secret to import a private ssh-key if you also are using a private git repository.
 
 ## Step by step
 Follow the tasks below to deploy SonarQube 7.3 on OpenShift environment:
