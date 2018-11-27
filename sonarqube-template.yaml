@@ -3,6 +3,15 @@ kind: Template
 metadata:
   name: sonarqube
 objects:
+###### Secret Config definition for Sonarqube builder service account
+- apiVersion: v1
+  data:
+    ssh-privatekey: <ssh_private_key_base64_value>
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: sonarqube-ssh
+  type: kubernetes.io/ssh-auth
 ###### Build Config definition for Sonarqube image
 - apiVersion: "v1"
   kind: "BuildConfig"
@@ -12,7 +21,9 @@ objects:
     source:
       type: Git
       git:
-        uri: "https://github.com/rdemoraes/docker-openshift-sonarqube"
+        uri: "ssh://git@<git_repo_url>"
+      sourceSecret:
+        name: "sonarqube-ssh"
     strategy:
       type: "Docker"
     output:
@@ -46,7 +57,7 @@ objects:
     name: postgresql-data
   spec:
     accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
     resources:
       requests:
         storage: ${POSTGRESQL_VOLUME_CAPACITY}
@@ -57,7 +68,7 @@ objects:
     name: sonarqube-data
   spec:
     accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
     resources:
       requests:
         storage: ${SONAR_DATA_VOLUME_CAPACITY}
@@ -151,6 +162,9 @@ objects:
       app: sonarqube
       deploymentconfig: sonarqube
     strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 600
       resources: {}
       rollingParams:
         intervalSeconds: 1
@@ -158,7 +172,7 @@ objects:
         maxUnavailable: 25%
         timeoutSeconds: 600
         updatePeriodSeconds: 1
-      type: Rolling
+      type: Recreate
     template:
       metadata:
         annotations:
@@ -202,9 +216,11 @@ objects:
             successThreshold: 1
             timeoutSeconds: 4
           resources:
+            limits:
+              memory: 3Gi
             requests:
               cpu: 750m
-              memory: 1024Mi
+              memory: 3Gi
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /opt/sonarqube/data
