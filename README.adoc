@@ -1,45 +1,36 @@
 # SonarQube on OpenShift
-This repo contains all of the resources required to build an OpenShift-specific Docker image of SonarQube 6.5.
+This repo contains all of the resources required to build an OpenShift-specific Docker image of SonarQube 7.3.
 
-It is inspired by the upstream SonarQube Docker image:
-https://github.com/SonarSource/docker-sonarqube/tree/master/5.5
+NOTE: This documentation cover an environment using a private git repository and Container Native Storage (Gluster-based storage solution). So, it's very important that you edit the template to adjust all the infos accordly with your environment, mainly the secret to import a private ssh-key if you also are using a private git repository.
 
-## Quick usage
-You can do something like the following, assuming you are in an existing OpenShift project:
+## Step by step
+Follow the tasks below to deploy SonarQube 7.3 on OpenShift environment:
 
 [source,bash]
 ----
-oc new-app postgresql-persistent \
---param POSTGRESQL_USER=sonar --param POSTGRESQL_PASSWORD=sonar --param POSTGRESQL_DATABASE=sonar --param VOLUME_CAPACITY=4Gi -lapp=sonarqube_db
+1. Create a new project:
+oc adm new-project --node-selector=region=citools citools-sonarqube
 
-oc new-app docker.io/wkulhanek/sonarqube:latest \
--e SONARQUBE_JDBC_USERNAME=sonar -e SONARQUBE_JDBC_PASSWORD=sonar -e SONARQUBE_JDBC_URL=jdbc:postgresql://postgresql/sonar
+2. Into the new project, deploy SonarQube from template:
+oc new-app -f sonarqube-template.yaml
 
-oc expose service sonarqube --port=9000
+3. After that, add the secret created on step two for builder service account:
+oc secrets add serviceaccount/builder secrets/sonarqube-ssh
 
-echo "apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sonarqube-pvc
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 4Gi" | oc create -f -
-oc set volume dc/sonarqube --add --overwrite --name=sonarqube-volume-1 --mount-path=/opt/sonarqube/data/ --type persistentVolumeClaim --claim-name=sonarqube-pvc
+4. Add the SCC (Security Context Constraints) privileged role to default service account:
+oc adm policy add-scc-to-user privileged -z default
+
 ----
 
 This will result in your OpenShift environment deploying the included PostgreSQL database with persistent storage and then deploying the SonarQube image directly from DockerHub. It will also set up a PersistentVolumeClaim for SonarQube to store plugins and other data.
 
-## Probes
-You should create Readiness and Liveness Probes for OpenShift to monitor the health of the SonarQube pod:
+Folow below all the objects included on template:
 
-[source,bash]
-----
-oc set probe dc/sonarqube --liveness --failure-threshold 3 --initial-delay-seconds 40 -- echo ok
-oc set probe dc/sonarqube --readiness --failure-threshold 3 --initial-delay-seconds 20 --get-url=http://:9000/about
-----
-
-## ToDos
-* Write an OpenShift template
+- Secret (ssh-auth) for private git repostory;
+- BuildConfig for SonarQube 7.3 (Docker Strategy);
+- ImageStream;
+- PVCs for PostgreSQL and SonarQube;
+- DeploymentConfig for PostgreSQL (Included ReadnessProbe/LivenessProbe/MemoryLimit);
+- DeploymentConfig for SonarQube (Included ReadnessProbe/LivenessProbe/MemoryLimit/RequestLimit);
+- Services for PostgreSQL and SonarQube;
+- Route for SonarQube service;
