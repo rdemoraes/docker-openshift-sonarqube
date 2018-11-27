@@ -27,7 +27,7 @@ RUN yum -y update \
     && yum clean all \
     && rm -rf /var/cache/yum \
     && cd /tmp \
-    && curl -k -o sonarqube.zip -fSL https://nexus.bvnet.bv/repository/raw/sonar/sonarqube-7.3-plus-addons.zip \
+    && curl -o sonarqube.zip -fSL https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip
     && cd /opt \
     && mkdir sonarqube \
     && cd sonarqube \
