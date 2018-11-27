@@ -6,7 +6,7 @@ objects:
 ###### Secret Config definition for Sonarqube builder service account
 - apiVersion: v1
   data:
-    ssh-privatekey: <ssh_private_key_base64_value>
+    ssh-privatekey: <ssh_masternode_private_key_base64_value>
   kind: Secret
   metadata:
     creationTimestamp: null
