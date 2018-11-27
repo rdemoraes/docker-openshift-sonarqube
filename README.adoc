@@ -17,7 +17,7 @@ oc new-app -f sonarqube-template.yaml
 3. After that, add the secret created on step two for builder service account:
 oc secrets add serviceaccount/builder secrets/sonarqube-ssh
 
-4. Add the SCC (Security Context Constraints) privileged role to default service account:
+4. Add the SCC (Security Context Constraints) privileged role for default service account:
 oc adm policy add-scc-to-user privileged -z default
 
 ----
