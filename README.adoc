@@ -34,3 +34,6 @@ Folow below all the objects included on template:
 - DeploymentConfig for SonarQube (Included ReadnessProbe/LivenessProbe/MemoryLimit/RequestLimit);
 - Services for PostgreSQL and SonarQube;
 - Route for SonarQube service;
+
+---
+forked from wkulhanek/docker-openshift-sonarqube
