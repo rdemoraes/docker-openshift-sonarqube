@@ -36,4 +36,3 @@ Folow below all the objects included on template:
 - Route for SonarQube service;
 
 ---
-forked from wkulhanek/docker-openshift-sonarqube. Thanks wkulhanek!!!
