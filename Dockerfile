@@ -16,12 +16,6 @@ LABEL name="SonarQube" \
 USER root
 EXPOSE 9000
 
-RUN yum-config-manager --disablerepo=* && yum-config-manager --enablerepo=rhel-server-rhscl-7-rpms \
---enablerepo=rhel-7-server-rpms \
---enablerepo=rhel-7-server-optional-rpms \
---enablerepo=rhel-7-server-satellite-tools-6.2-rpms \
---enablerepo=Banco_Votorantim_Epel_Epel_Red_Hat_Enterprise_Linux_7_Server_RPMs_x86_64
-
 RUN yum -y update \
     && yum -y install unzip java-1.8.0-openjdk nss_wrapper \
     && yum clean all \
